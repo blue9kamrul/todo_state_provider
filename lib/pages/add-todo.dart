@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_state_provider/models/save_task.dart';
+import 'package:todo_state_provider/models/task_model.dart';
 
 class AddtoDo extends StatelessWidget {
   AddtoDo({super.key});
@@ -17,12 +20,23 @@ class AddtoDo extends StatelessWidget {
               TextField(
                 controller: controller,
                 autofocus: true,
-                decoration: const InputDecoration(hintText: 'Ttile'),
+                decoration: const InputDecoration(hintText: 'Title'),
               ),
               const SizedBox(
                 height: 15,
               ),
-              ElevatedButton(onPressed: () {}, child: const Text('Add')),
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<SaveTask>().addTask(
+                          Task(
+                            title: controller.text,
+                            isCompleted: false,
+                          ),
+                        );
+                    controller.clear();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Add')),
             ],
           ),
         ));
